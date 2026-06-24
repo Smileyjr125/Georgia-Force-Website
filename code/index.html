@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Georgia Force Christian Athletics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+
+<!-- ============ GAME COUNTDOWN (above all header elements) ============ -->
+<div class="countdown-bar">
+  <div class="countdown-inner">
+    <span class="countdown-label">NEXT GAME</span>
+    <span class="countdown-game">Varsity Football vs. Mount Pisgah Christian</span>
+    <span class="countdown-meta">Fri, Aug 21 · 7:30 PM · Home</span>
+    <div class="countdown-timer" id="countdownTimer" aria-live="polite">
+      <div class="t-unit"><span id="cd-days">00</span><small>Days</small></div>
+      <div class="t-unit"><span id="cd-hours">00</span><small>Hrs</small></div>
+      <div class="t-unit"><span id="cd-mins">00</span><small>Min</small></div>
+      <div class="t-unit"><span id="cd-secs">00</span><small>Sec</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="topstripe"></div>
+  <nav class="navbar">
+    <div class="wrap">
+      <a href="#top" class="brand">
+        <img class="brand-logo" src="data:image/png;base64,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" alt="Georgia Force shield logo">
+        <span class="brand-text"><strong>GEORGIA FORCE</strong><small>CHRISTIAN ATHLETICS</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#sports">SPORTS</a></li>
+        <li><a href="#register">REGISTER</a></li>
+        <li><a href="#schedule">SCHEDULE</a></li>
+        <li><a href="#impact">IMPACT</a></li>
+        <li><a href="#" class="donate-btn">DONATE</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ HERO (uploaded mockup image) ============ -->
+<section class="hero" id="hero" aria-label="Join the Force">
+  <div class="hero-photo"></div>
+  <div class="wrap hero-content">
+    <span class="hero-eyebrow">Est. 2004 &middot; Sugar Hill, GA &middot; GAPPS Open Division</span>
+    <h1 class="hero-title">Join The<br>Force</h1>
+    <div class="hero-buttons">
+      <a href="#register" class="btn btn-white">Register</a>
+      <a href="#sports" class="btn btn-gray">Sports</a>
+      <a href="#impact" class="btn btn-dark">Impact</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPORTS OVERVIEW ============ -->
+<section class="sports" id="sports">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Our Programs</span>
+      <h2>Three Sports. One Family.</h2>
+    </div>
+    <div class="sports-grid">
+      <article class="sport-card">
+        <div class="sport-icon">
+          <img src="/media/football.svg" alt="An animated football">
+        </div>
+        <h3>Football</h3>
+        <p>Varsity and Middle School tackle football teams compete in GAPPS, building toughness, discipline, and brotherhood on the gridiron.</p>
+        <div class="sport-meta">Varsity · Middle School</div>
+      </article>
+      <article class="sport-card dark">
+        <div class="sport-icon">
+          <img src="/media/basketball.svg" alt="An animated basketball">
+        </div>
+        <h3>Basketball</h3>
+        <p>Boys' and girls' basketball programs build fundamentals, teamwork, and competitive fire through a full GAPPS winter season.</p>
+        <div class="sport-meta">Boys</div>
+      </article>
+      <article class="sport-card">
+        <div class="sport-icon">
+          <img src="/media/cheerleading.svg" alt="An ">
+        </div>
+        <h3>Cheerleading</h3>
+        <p>Sideline and competition cheer squads bring energy to every Force game while growing confidence, spirit, and teamwork.</p>
+        <div class="sport-meta">Sideline · Competition</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REGISTER ============ -->
+<section class="register" id="register">
+  <div class="wrap register-grid">
+    <div class="register-copy">
+      <span class="eyebrow">Join Us</span>
+      <h2>Ready To Join<br>The Force?</h2>
+      <p>Whether your athlete is stepping onto the field for the first time or has played for years, we'd love to have them on the team. Fill out the form and our coaching staff will reach out with next steps.</p>
+      <ul class="register-points">
+        <li>Open to students in and around Sugar Hill, GA</li>
+        <li>Competing in the GAPPS Open Division</li>
+        <li>Christ-centered coaching on and off the field</li>
+      </ul>
+    </div>
+    <form class="register-form" id="registerForm">
+      <div class="field-row">
+        <div class="field">
+          <label for="reg-student">Student Name</label>
+          <input id="reg-student" name="student" type="text" required>
+        </div>
+        <div class="field">
+          <label for="reg-grade">Grade Level</label>
+          <input id="reg-grade" name="grade" type="text" placeholder="e.g. 7th Grade" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="reg-parent">Parent / Guardian Name</label>
+        <input id="reg-parent" name="parent" type="text" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input id="reg-email" name="email" type="email" required>
+        </div>
+        <div class="field">
+          <label for="reg-phone">Phone</label>
+          <input id="reg-phone" name="phone" type="tel" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="reg-sport">Sport Interest</label>
+        <select id="reg-sport" name="sport" required>
+          <option value="" disabled selected>Select a sport</option>
+          <option>Football — Varsity</option>
+          <option>Football — Middle School</option>
+          <option>Basketball</option>
+          <option>Cheerleading</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary form-submit">Submit Registration Interest</button>
+      <p class="form-note" id="registerNote" hidden>Thanks! Your registration interest has been recorded. Our staff will follow up by email or phone shortly.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE + CALENDAR ============ -->
+<section class="schedule" id="schedule">
+  <div class="wrap">
+    <div class="section-head light">
+      <span class="eyebrow">2026–27 Season</span>
+      <h2>Game Schedule</h2>
+      <p class="sample-note">Sample schedule shown for demonstration — update the GAMES list in the code with confirmed dates and opponents.</p>
+    </div>
+    <div class="schedule-grid">
+      <div class="calendar" id="calendar">
+        <div class="cal-head">
+          <button id="calPrev" aria-label="Previous month" type="button">‹</button>
+          <h3 id="calMonthLabel"></h3>
+          <button id="calNext" aria-label="Next month" type="button">›</button>
+        </div>
+        <div class="cal-legend">
+          <span><i class="dot dot-vf"></i> Varsity Football</span>
+          <span><i class="dot dot-msf"></i> MS Football</span>
+          <span><i class="dot dot-bb"></i> Basketball</span>
+        </div>
+        <div class="cal-weekdays">
+          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div class="schedule-list">
+        <h3>Upcoming Games</h3>
+        <ul id="upcomingList"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT / BY THE NUMBERS ============ -->
+<section class="impact" id="impact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Since 2004</span>
+      <h2>Georgia Force By The Numbers</h2>
+      <p style="color:#444b58;font-size:15.5px;max-width:560px;">Two decades of faith, football, and family in Sugar Hill, GA — built one season at a time.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-stat" data-count="22">
+        <div class="impact-number"><span class="count-up">0</span></div>
+        <div class="impact-label">Years Building Champions</div>
+      </div>
+      <div class="impact-stat dark" data-count="3">
+        <div class="impact-number"><span class="count-up">0</span></div>
+        <div class="impact-label">Sports Programs Offered</div>
+      </div>
+      <div class="impact-stat" data-count="150">
+        <div class="impact-number"><span class="count-up">0</span>+</div>
+        <div class="impact-label">Student-Athletes Each Season</div>
+      </div>
+      <div class="impact-stat dark" data-count="12">
+        <div class="impact-number"><span class="count-up">0</span></div>
+        <div class="impact-label">Conference &amp; Region Titles</div>
+      </div>
+    </div>
+    <p class="impact-note">Sample stats shown for demonstration — swap in your program's real numbers.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div class="wrap footer-cta-inner">
+      <div>
+        <span class="footer-cta-eyebrow">Become Part of the Force</span>
+        <h3>Ready to suit up this season?</h3>
+      </div>
+      <a href="#register" class="btn btn-white">Register Now</a>
+    </div>
+  </div>
+  <div class="footer-main">
+    <span class="footer-watermark" aria-hidden="true">FORCE</span>
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="data:image/png;base64,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" alt="Georgia Force shield logo">
+          <div>
+            <strong>GEORGIA FORCE</strong>
+            <span>Est. 2004 &middot; Sugar Hill, GA &middot; GAPPS Open Division</span>
+          </div>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>EXPLORE</h4>
+            <ul>
+              <li><a href="#sports">Sports</a></li>
+              <li><a href="#register">Register</a></li>
+              <li><a href="#schedule">Schedule</a></li>
+              <li><a href="#impact">Impact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>MORE</h4>
+            <ul>
+              <li><a href="#">Donate</a></li>
+              <li><a href="#">Shop</a></li>
+              <li><a href="#">Force Info</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>FOLLOW</h4>
+            <div class="footer-social">
+              <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9h3V5h-3a4 4 0 0 0-4 4v3H7v4h3v7h4v-7h3l1-4h-4V9a1 1 0 0 1 1-1Z"/></svg></a>
+              <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+              <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="6" width="19" height="12" rx="3"/><path d="M11 9.5 15 12l-4 2.5Z"/></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Georgia Force Christian Athletics. All rights reserved.</span>
+        <a href="#top" class="back-to-top">Back to top &uarr;</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
