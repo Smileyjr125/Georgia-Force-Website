@@ -89,7 +89,7 @@
   .sport-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px -16px rgba(13,27,62,.35);}
   .sport-card.dark{background:var(--navy-deep);border:1px solid #1c2c54;border-top:4px solid var(--blue-light);}
   .sport-icon{width:58px;height:58px;border-radius:50%;background:var(--navy-deep);color:var(--white);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
-  .sport-icon img{width:36px;height:36px;}
+  .sport-icon svg{width:36px;height:36px;}
   .sport-card.dark .sport-icon{background:var(--white);color:var(--navy-deep);}
   .sport-card h3{font-size:21px;letter-spacing:.03em;color:var(--navy-deep);margin-bottom:12px;}
   .sport-card.dark h3{color:var(--white);}
