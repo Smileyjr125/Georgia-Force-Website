@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Georgia Force Christian Athletics</title>
+<link rel="icon" type="png" href="./images/Georgia Force Logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body id="top">
+
+<!-- ============ GAME COUNTDOWN (above all header elements) ============ -->
+<div class="countdown-bar">
+  <div class="countdown-inner">
+    <span class="countdown-label">NEXT GAME</span>
+    <span class="countdown-game">Varsity Football vs. Mount Pisgah Christian</span>
+    <span class="countdown-meta">Fri, Aug 21 · 7:30 PM · Home</span>
+    <div class="countdown-timer" id="countdownTimer" aria-live="polite">
+      <div class="t-unit"><span id="cd-days">00</span><small>Days</small></div>
+      <div class="t-unit"><span id="cd-hours">00</span><small>Hrs</small></div>
+      <div class="t-unit"><span id="cd-mins">00</span><small>Min</small></div>
+      <div class="t-unit"><span id="cd-secs">00</span><small>Sec</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="topstripe"></div>
+  <nav class="navbar">
+    <div class="wrap">
+      <a href="./index.html" class="brand">
+        <img class="brand-logo" src="./images/Georgia Force Logo.png">
+        <span class="brand-text"><strong>GEORGIA FORCE</strong><small>CHRISTIAN ATHLETICS</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#sports">SPORTS</a></li>
+        <li><a href="#register">REGISTER</a></li>
+        <li><a href="#schedule">SCHEDULE</a></li>
+        <li><a href="./contact">CONTACT</a></li>
+        <li><a href="./donate" class="donate-btn">DONATE</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero" aria-label="Join the Force">
+  <div class="hero-photo"></div>
+  <div class="wrap hero-content">
+    <span class="hero-eyebrow">Est. 2004 &middot; Sugar Hill, GA &middot; GAPPS Open Division</span>
+    <h1 class="hero-title">Join The<br><span class="hero-title-Force">Force</span></h1>
+    <div class="hero-buttons">
+      <a href="#register" class="btn btn-white">Register</a>
+      <a href="#sports" class="btn btn-gray">Sports</a>
+      <a href="./contact" class="btn btn-dark">Contact</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPORTS OVERVIEW ============ -->
+<section class="sports" id="sports">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Our Programs</span>
+      <h2>Three Sports. One Family.</h2>
+    </div>
+    <div class="sports-grid">
+      <!-- ============ FOOTBALL ============ -->
+      <a href="./football">
+        <article class="sport-card">
+          <div class="sport-icon">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <g transform="rotate(-35 32 32)">
+                <ellipse cx="32" cy="32" rx="27" ry="16"></ellipse>
+                <line x1="6" y1="32" x2="58" y2="32"></line>
+                <line x1="25" y1="27" x2="25" y2="37"></line>
+                <line x1="32" y1="25" x2="32" y2="39"></line>
+                <line x1="39" y1="27" x2="39" y2="37"></line>
+              </g>
+            </svg>
+          </div>
+          <h3>Football</h3>
+          <p>Varsity and Middle School tackle football teams compete in GAPPS, building toughness, discipline, and brotherhood on the gridiron.</p>
+          <div class="sport-meta">Varsity · Middle School</div>
+        </article>
+      </a>
+      <!-- ============ BASKETBALL ============ -->
+      <a href="./basketball"> 
+        <article class="sport-card dark">
+            <div class="sport-icon">
+              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                <circle cx="32" cy="32" r="26"></circle>
+                <line x1="6" y1="32" x2="58" y2="32"></line>
+                <line x1="32" y1="6" x2="32" y2="58"></line>
+                <path d="M12 12 Q32 32 12 52"></path>
+                <path d="M52 12 Q32 32 52 52"></path>
+              </svg>
+            </div>
+            <h3>Basketball</h3>
+            <p>Boys' and girls' basketball programs build fundamentals, teamwork, and competitive fire through a full GAPPS winter season.</p>
+            <div class="sport-meta">Varsity</div>
+          </article>
+        </a>
+      <!-- ============ CHEERLEADING ============ -->
+      <a href="./cheerleading">
+        <article class="sport-card">
+          <div class="sport-icon">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="27" width="7" height="10" rx="2"/>
+              <line x1="15" y1="27" x2="47" y2="15"/>
+              <line x1="15" y1="37" x2="47" y2="49"/>
+              <path d="M47 15 Q59 32 47 49"/>
+              <line x1="27" y1="43" x2="25" y2="47"/>
+            </svg>
+          </div>
+          <h3>Cheerleading</h3>
+          <p>Sideline and competition cheer squads bring energy to every Force game while growing confidence, spirit, and teamwork.</p>
+          <div class="sport-meta">Sideline · Competition</div>
+        </article>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REGISTER ============ -->
+<section class="register" id="register">
+  <div class="wrap register-grid">
+    <div class="register-copy">
+      <span class="eyebrow">Join Us</span>
+      <h2>Ready To Join<br>The Force?</h2>
+      <p>Whether your athlete is stepping onto the field for the first time or has played for years, we'd love to have them on the team. Fill out the form and our coaching staff will reach out with next steps.</p>
+      <ul class="register-points">
+        <li>Open to students in and around Sugar Hill, GA</li>
+        <li>Competing in the GAPPS Open Division</li>
+        <li>Christ-centered coaching on and off the field</li>
+      </ul>
+    </div>
+    <form class="register-form" id="registerForm" netlify>
+      <div class="field-row">
+        <div class="field">
+          <label for="reg-student">Student Name</label>
+          <input id="reg-student" name="student" type="text" required>
+        </div>
+        <div class="field">
+          <label for="reg-grade">Grade Level</label>
+          <input id="reg-grade" name="grade" type="text" placeholder="e.g. 7th Grade" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="reg-parent">Parent / Guardian Name</label>
+        <input id="reg-parent" name="parent" type="text" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input id="reg-email" name="email" type="email" required>
+        </div>
+        <div class="field">
+          <label for="reg-phone">Phone</label>
+          <input id="reg-phone" name="phone" type="tel" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="reg-sport">Sport Interest</label>
+        <select id="reg-sport" name="sport" required>
+          <option value="" disabled selected>Select a sport</option>
+          <option>Football — Varsity</option>
+          <option>Football — Middle School</option>
+          <option>Basketball</option>
+          <option>Cheerleading</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary form-submit">Submit Registration Interest</button>
+      <p class="form-note" id="registerNote" hidden>Thanks! Your registration interest has been recorded. Our staff will follow up by email or phone shortly.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE + CALENDAR ============ -->
+<section class="schedule" id="schedule">
+  <div class="wrap">
+    <div class="section-head light">
+      <span class="eyebrow">2026–27 Season</span>
+      <h2>Game Schedule</h2>
+      <p class="sample-note">Sample schedule shown for demonstration — update the GAMES list in the code with confirmed dates and opponents.</p>
+    </div>
+    <div class="schedule-grid">
+      <div class="calendar" id="calendar">
+        <div class="cal-head">
+          <button id="calPrev" aria-label="Previous month" type="button">‹</button>
+          <h3 id="calMonthLabel"></h3>
+          <button id="calNext" aria-label="Next month" type="button">›</button>
+        </div>
+        <div class="cal-legend">
+          <span><i class="dot dot-vf"></i> Varsity Football</span>
+          <span><i class="dot dot-msf"></i> MS Football</span>
+          <span><i class="dot dot-bb"></i> Basketball</span>
+        </div>
+        <div class="cal-weekdays">
+          <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+      <div class="schedule-list">
+        <h3>Upcoming Games</h3>
+        <ul id="upcomingList"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT / BY THE NUMBERS ============ -->
+<section class="impact" id="impact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Since 2004</span>
+      <h2>Georgia Force By The Numbers</h2>
+      <p style="color:#444b58;font-size:15.5px;max-width:560px;">Two decades of faith, football, and family in Sugar Hill, GA — built one season at a time.</p>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-stat" data-count="22">
+        <div class="impact-number"><span class="count-up">0</span></div>
+        <div class="impact-label">Years Building Champions</div>
+      </div>
+      <div class="impact-stat dark" data-count="3">
+        <div class="impact-number"><span class="count-up">0</span></div>
+        <div class="impact-label">Sports Programs Offered</div>
+      </div>
+      <div class="impact-stat" data-count="150">
+        <div class="impact-number"><span class="count-up">0</span>+</div>
+        <div class="impact-label">Student-Athletes Each Season</div>
+      </div>
+      <div class="impact-stat dark" data-count="12">
+        <div class="impact-number"><span class="count-up">0</span></div>
+        <div class="impact-label">Conference &amp; Region Titles</div>
+      </div>
+    </div>
+    <p class="impact-note">Sample stats shown for demonstration — swap in your program's real numbers.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div class="wrap footer-cta-inner">
+      <div>
+        <span class="footer-cta-eyebrow">Become Part of the Force</span>
+        <h3>Ready to suit up this season?</h3>
+      </div>
+      <a href="#register" class="btn btn-white">Register Now</a>
+    </div>
+  </div>
+  <div class="footer-main">
+    <span class="footer-watermark" aria-hidden="true">FORCE</span>
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="./index.html"><img src="./images/Georgia Force Logo.png"></a>
+          <div>
+            <strong>GEORGIA FORCE</strong>
+            <span>Est. 2004 &middot; Sugar Hill, GA &middot; GAPPS Open Division</span>
+          </div>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>EXPLORE</h4>
+            <ul>
+              <li><a href="#sports">Sports</a></li>
+              <li><a href="#register">Register</a></li>
+              <li><a href="#schedule">Schedule</a></li>
+              <li><a href="#impact">Impact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>MORE</h4>
+            <ul>
+              <li><a href="#">Donate</a></li>
+              <li><a href="#">Shop</a></li>
+              <li><a href="#">Force Info</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>FOLLOW</h4>
+            <div class="footer-social">
+              <a href="https://www.facebook.com/georgiaforcechristian" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9h3V5h-3a4 4 0 0 0-4 4v3H7v4h3v7h4v-7h3l1-4h-4V9a1 1 0 0 1 1-1Z"/></svg></a>
+              <a href="https://www.instagram.com/georgiaforcechristian/" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+              <a href="#" aria-label="YouTube">
+                <svg viewBox="0 0 56 100" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round">
+                  <line x1="3" y1="1" x2="21" y2="1"/>
+                  <line x1="35" y1="1" x2="53" y2="1"/>
+                  <line x1="3" y1="1" x2="17" y2="48"/>
+                  <line x1="53" y1="1" x2="39" y2="48"/>
+                  <line x1="17" y1="48" x2="1" y2="99"/>
+                  <line x1="39" y1="48" x2="55" y2="99"/>
+                  <line x1="1" y1="99" x2="20" y2="99"/>
+                  <line x1="36" y1="99" x2="55" y2="99"/>
+                  <line x1="21" y1="1" x2="26" y2="17"/>
+                  <line x1="35" y1="1" x2="30" y2="17"/>
+                  <circle cx="28" cy="24" r="7" fill="white" stroke="none"/>
+                  <line x1="28" y1="74" x2="20" y2="99"/>
+                  <line x1="28" y1="74" x2="36" y2="99"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Georgia Force Christian Athletics. All rights reserved.</span>
+        <a href="#top" class="back-to-top">Back to top &uarr;</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
