@@ -6,7 +6,7 @@
     --blue-light:#3f6fc4;
     --gold:#d4af37;
     --orange:#c1432f;
-    --gray:#c9c9c9;
+    --gray:#a5a5a5;
     --gray-light:#f3f4f6;
     --ink:#161b27;
     --white:#ffffff;
@@ -41,13 +41,16 @@
   /* ===== Countdown bar ===== */
   .countdown-bar{background:var(--black);color:var(--white);border-bottom:1px solid #1f1f1f;}
   .countdown-inner{max-width:var(--max);margin:0 auto;padding:10px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;justify-content:center;text-align:center;}
-  .countdown-label{font-family:'Oswald',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--gold);}
+  .countdown-label{font-family:'Oswald',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--gray);}
   .countdown-game{font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:.02em;}
   .countdown-meta{font-size:12px;color:var(--gray);}
   .countdown-timer{display:flex;gap:8px;}
   .t-unit{display:flex;flex-direction:column;align-items:center;background:#141414;border:1px solid #2a2a2a;border-radius:4px;padding:4px 8px;min-width:42px;}
   .t-unit span{font-family:'Oswald',sans-serif;font-weight:700;font-size:15px;line-height:1;color:var(--white);}
   .t-unit small{font-size:9px;letter-spacing:.08em;color:var(--gray);margin-top:2px;}
+  .countdown-label-mobile{display:none;}
+  .countdown-compact{display:none;}
+
 
   /* ===== Header ===== */
   .site-header{position:sticky;top:0;z-index:50;}
@@ -199,7 +202,27 @@
     .impact-grid{grid-template-columns:repeat(2,1fr);}
   }
   @media (max-width:520px){
-    .countdown-timer{order:3;width:100%;justify-content:center;margin-top:4px;}
+    .countdown-game,
+    .countdown-meta,
+    .countdown-timer,
+    .countdown-label{display:none;}
+    .countdown-label-mobile{
+      display:inline-flex;
+      align-items:center;
+      font-family:'Oswald',sans-serif;
+      font-weight:700;
+      font-size:12px;
+      letter-spacing:.14em;
+      color:var(--gray);
+    }
+    .countdown-compact{
+      display:inline-block;
+      font-family:'Oswald',sans-serif;
+      font-weight:700;
+      font-size:16px;
+      color:var(--white);
+      letter-spacing:.04em;
+    }
   }
 
   @media (prefers-reduced-motion: reduce){
