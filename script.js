@@ -242,7 +242,6 @@ bootstrap();
 // ---------- Registration form ----------
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  console.log(e.target);
   const formData = new FormData(e.target);
 
   try {
