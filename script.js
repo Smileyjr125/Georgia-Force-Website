@@ -241,9 +241,23 @@ bootstrap();
 
 // ---------- Registration form ----------
 document.getElementById('registerForm').addEventListener('submit', e => {
-//  e.preventDefault();
-  document.getElementById('registerNote').hidden = false;
-//  e.target.reset();
+  e.preventDefault();
+  const formData = new FormData(form);
+
+  try {
+    await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams(formData).toString()
+    });
+
+    e.target.reset();
+    document.getElementById('registerNote').hidden = false;
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // ---------- Impact stat count-up animation ----------
