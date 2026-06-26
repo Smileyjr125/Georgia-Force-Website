@@ -243,7 +243,7 @@ bootstrap();
 document.getElementById('registerForm').addEventListener('submit', e => {
 //  e.preventDefault();
   document.getElementById('registerNote').hidden = false;
-  e.target.reset();
+//  e.target.reset();
 });
 
 // ---------- Impact stat count-up animation ----------
