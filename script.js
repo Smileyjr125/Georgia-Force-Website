@@ -242,7 +242,7 @@ bootstrap();
 // ---------- Registration form ----------
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const formData = new FormData(form);
+  const formData = new FormData(e.target);
 
   try {
     await fetch("/", {
