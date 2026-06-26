@@ -240,7 +240,7 @@ async function bootstrap() {
 bootstrap();
 
 // ---------- Registration form ----------
-document.getElementById('registerForm').addEventListener('submit', e => {
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
 
