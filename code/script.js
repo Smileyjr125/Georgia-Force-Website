@@ -1,129 +1,187 @@
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSbyxQf9Z7KnSpGNp0p7ti_fYzsyoa1gdE17HHn5jmwTo7W0X84a6oAu9trkMT280i5262IYodjw11_/pub?gid=0&single=true&output=csv';
+
+// --- Sport label / dot-class mapping ---
+const SPORT_LABEL = { vf: 'Varsity Football', msf: 'MS Football', bb: 'Basketball' };
+const SPORT_CLASS = { vf: 'dot-vf', msf: 'dot-msf', bb: 'dot-bb' };
+const MONTH_NAMES = [
+  'January','February','March','April','May','June',
+  'July','August','September','October','November','December'
+];
+
+let GAMES = [];          // populated after fetch
+let viewYear, viewMonth; // calendar navigation state
+
 // ---------- Mobile nav toggle ----------
 const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
+const navLinks  = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => {
   const open = navLinks.classList.toggle('open');
   navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  navLinks.classList.remove('open');
-  navToggle.setAttribute('aria-expanded', 'false');
-}));
+navLinks.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  })
+);
+
+// ---------- CSV fetch + parse ----------
+// Handles quoted fields so opponent names with commas still work.
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/).slice(1); // drop header row
+  return lines.reduce((acc, raw) => {
+    const line = raw.trim();
+    if (!line) return acc;
+
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQ = !inQ; continue; }
+      if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else cur += ch;
+    }
+    cols.push(cur.trim());
+
+    if (cols.length < 5) return acc;
+    const [date, sport, opponent, homeRaw, time] = cols;
+    const home = /^(home|true|yes)$/i.test(homeRaw.trim());
+    if (date && sport && opponent) {
+      acc.push({
+        date:     date.trim(),
+        sport:    sport.trim().toLowerCase(),
+        opponent: opponent.trim(),
+        home,
+        time:     time.trim()
+      });
+    }
+    return acc;
+  }, []);
+}
+
+async function fetchGames() {
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return parseCSV(await res.text());
+  } catch (err) {
+    console.error('Schedule fetch failed:', err);
+    // Show a friendly message in the sidebar if fetch fails
+    const ul = document.getElementById('upcomingList');
+    if (ul) {
+      ul.innerHTML = '<li style="color:#c1432f;font-size:13.5px">⚠ Could not load schedule. Check the SHEET_CSV_URL in script.js.</li>';
+    }
+    return [];
+  }
+}
 
 // ---------- Countdown timer ----------
-const NEXT_GAME = new Date('2026-08-21T19:30:00');
-function tickCountdown(){
-  const now = new Date();
-  let diff = NEXT_GAME - now;
-  if (diff < 0) diff = 0;
-  const days = Math.floor(diff / (1000*60*60*24));
-  const hours = Math.floor((diff / (1000*60*60)) % 24);
-  const mins = Math.floor((diff / (1000*60)) % 60);
-  const secs = Math.floor((diff / 1000) % 60);
-  const pad = n => String(n).padStart(2,'0');
-  document.getElementById('cd-days').textContent = pad(days);
-  document.getElementById('cd-hours').textContent = pad(hours);
-  document.getElementById('cd-mins').textContent = pad(mins);
-  document.getElementById('cd-secs').textContent = pad(secs);
+let countdownTarget = null;
+
+function tickCountdown() {
+  const diff = countdownTarget ? Math.max(0, countdownTarget - Date.now()) : 0;
+  const pad  = n => String(n).padStart(2, '0');
+  document.getElementById('cd-days' ).textContent = pad(Math.floor(diff / 86400000));
+  document.getElementById('cd-hours').textContent = pad(Math.floor(diff / 3600000) % 24);
+  document.getElementById('cd-mins' ).textContent = pad(Math.floor(diff / 60000)  % 60);
+  document.getElementById('cd-secs' ).textContent = pad(Math.floor(diff / 1000)   % 60);
 }
-tickCountdown();
-setInterval(tickCountdown, 1000);
 
-// ---------- Sample schedule data ----------
-// sport codes: vf = Varsity Football, msf = Middle School Football, bb = Basketball
-const GAMES = [
-  {date:'2026-08-21', sport:'vf', opponent:'Mount Pisgah Christian', home:true, time:'7:30 PM'},
-  {date:'2026-08-28', sport:'vf', opponent:"King's Ridge Christian", home:false, time:'7:30 PM'},
-  {date:'2026-09-03', sport:'msf', opponent:'Mount Pisgah Christian', home:true, time:'5:30 PM'},
-  {date:'2026-09-04', sport:'vf', opponent:'Hebron Christian', home:true, time:'7:30 PM'},
-  {date:'2026-09-10', sport:'msf', opponent:'Hebron Christian', home:false, time:'5:30 PM'},
-  {date:'2026-09-11', sport:'vf', opponent:'Whitefield Academy', home:false, time:'7:30 PM'},
-  {date:'2026-09-17', sport:'msf', opponent:'Whitefield Academy', home:true, time:'5:30 PM'},
-  {date:'2026-09-18', sport:'vf', opponent:'Athens Christian', home:true, time:'7:30 PM'},
-  {date:'2026-09-24', sport:'msf', opponent:'Athens Christian', home:false, time:'5:30 PM'},
-  {date:'2026-09-25', sport:'vf', opponent:"Eagle's Landing Christian", home:false, time:'7:30 PM'},
-  {date:'2026-10-01', sport:'msf', opponent:"Eagle's Landing Christian", home:true, time:'5:30 PM'},
-  {date:'2026-10-02', sport:'vf', opponent:"Holy Innocents' Episcopal", home:true, time:'7:30 PM'},
-  {date:'2026-10-08', sport:'msf', opponent:"Holy Innocents' Episcopal", home:false, time:'5:30 PM'},
-  {date:'2026-10-09', sport:'vf', opponent:'First Presbyterian Day', home:false, time:'7:30 PM'},
-  {date:'2026-10-15', sport:'msf', opponent:'Strong Rock Christian', home:true, time:'5:30 PM'},
-  {date:'2026-10-16', sport:'vf', opponent:'Strong Rock Christian', home:true, time:'7:30 PM'},
-  {date:'2026-10-23', sport:'vf', opponent:'Heritage Prep', home:false, time:'7:30 PM'},
-  {date:'2026-10-30', sport:'vf', opponent:'Christian Heritage', home:true, time:'7:30 PM'},
-  {date:'2026-11-13', sport:'bb', opponent:'Mount Pisgah Christian', home:true, time:'6:00 PM'},
-  {date:'2026-11-17', sport:'bb', opponent:"King's Ridge Christian", home:false, time:'6:00 PM'},
-  {date:'2026-11-20', sport:'bb', opponent:'Hebron Christian', home:true, time:'6:00 PM'},
-  {date:'2026-12-01', sport:'bb', opponent:'Whitefield Academy', home:false, time:'6:00 PM'},
-  {date:'2026-12-04', sport:'bb', opponent:'Athens Christian', home:true, time:'6:00 PM'},
-  {date:'2026-12-08', sport:'bb', opponent:"Eagle's Landing Christian", home:false, time:'6:00 PM'},
-  {date:'2027-01-12', sport:'bb', opponent:"Holy Innocents' Episcopal", home:true, time:'6:00 PM'},
-  {date:'2027-01-15', sport:'bb', opponent:'First Presbyterian Day', home:false, time:'6:00 PM'},
-  {date:'2027-01-19', sport:'bb', opponent:'Strong Rock Christian', home:true, time:'6:00 PM'},
-  {date:'2027-01-26', sport:'bb', opponent:'Heritage Prep', home:false, time:'6:00 PM'},
-  {date:'2027-01-29', sport:'bb', opponent:'Christian Heritage', home:true, time:'6:00 PM'},
-  {date:'2027-02-02', sport:'bb', opponent:'Mount Pisgah Christian', home:false, time:'6:00 PM'},
-];
-const SPORT_LABEL = {vf:'Varsity Football', msf:'MS Football', bb:'Basketball'};
-const SPORT_CLASS = {vf:'dot-vf', msf:'dot-msf', bb:'dot-bb'};
+function initCountdown(games) {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const next  = [...games]
+    .filter(g => new Date(g.date + 'T00:00:00') >= today)
+    .sort((a, b) => new Date(a.date) - new Date(b.date))[0];
 
-const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-let viewYear, viewMonth;
+  if (next) {
+    const [y, mo, d] = next.date.split('-').map(Number);
 
-function gamesOn(y,m,d){
-  const key = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    // Parse time string (e.g. "7:30 PM") for accurate countdown target
+    let gameDate = new Date(y, mo - 1, d, 19, 30, 0); // fallback 7:30 PM
+    const tm = next.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (tm) {
+      let hr = +tm[1], mn = +tm[2];
+      if (/PM/i.test(tm[3]) && hr !== 12) hr += 12;
+      if (/AM/i.test(tm[3]) && hr === 12)  hr  = 0;
+      gameDate = new Date(y, mo - 1, d, hr, mn, 0);
+    }
+    countdownTarget = gameDate.getTime();
+
+    // Update the countdown bar text dynamically
+    const dateObj  = new Date(y, mo - 1, d);
+    const weekday  = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+    const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const label    = SPORT_LABEL[next.sport] || next.sport;
+    const vsAt     = next.home ? 'vs.' : '@';
+
+    const barGame = document.querySelector('.countdown-game');
+    const barMeta = document.querySelector('.countdown-meta');
+    if (barGame) barGame.textContent = `${label} ${vsAt} ${next.opponent}`;
+    if (barMeta) barMeta.textContent = `${weekday}, ${monthDay} · ${next.time} · ${next.home ? 'Home' : 'Away'}`;
+  }
+
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+}
+
+// ---------- Calendar ----------
+function gamesOn(y, m, d) {
+  const key = `${y}-${String(m + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   return GAMES.filter(g => g.date === key);
 }
 
-function renderCalendar(y,m){
+function renderCalendar(y, m) {
   viewYear = y; viewMonth = m;
   document.getElementById('calMonthLabel').textContent = `${MONTH_NAMES[m]} ${y}`;
-  const grid = document.getElementById('calGrid');
+  const grid  = document.getElementById('calGrid');
   grid.innerHTML = '';
-  const firstDay = new Date(y,m,1).getDay();
-  const daysInMonth = new Date(y,m+1,0).getDate();
-  for(let i=0;i<firstDay;i++){
-    const pad = document.createElement('div');
-    pad.className = 'cal-cell pad';
-    grid.appendChild(pad);
+  const first = new Date(y, m, 1).getDay();
+  const days  = new Date(y, m + 1, 0).getDate();
+
+  for (let i = 0; i < first; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-cell pad';
+    grid.appendChild(el);
   }
-  for(let d=1; d<=daysInMonth; d++){
-    const cell = document.createElement('button');
-    cell.type = 'button';
-    const games = gamesOn(y,m,d);
+  for (let d = 1; d <= days; d++) {
+    const games = gamesOn(y, m, d);
+    const cell  = document.createElement('button');
+    cell.type   = 'button';
     cell.className = 'cal-cell' + (games.length ? ' has-game' : '');
     cell.innerHTML = `<span>${d}</span>`;
-    if(games.length){
-      const dotsWrap = document.createElement('div');
-      dotsWrap.className = 'cal-dots';
+    if (games.length) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cal-dots';
       games.forEach(g => {
         const dot = document.createElement('span');
-        dot.className = 'dot ' + SPORT_CLASS[g.sport];
-        dotsWrap.appendChild(dot);
+        dot.className = `dot ${SPORT_CLASS[g.sport] || ''}`;
+        wrap.appendChild(dot);
       });
-      cell.appendChild(dotsWrap);
-      cell.addEventListener('click', () => selectDay(y,m,d,cell));
-      cell.setAttribute('aria-label', `${MONTH_NAMES[m]} ${d}: ${games.map(g=>SPORT_LABEL[g.sport]+' vs '+g.opponent).join(', ')}`);
+      cell.appendChild(wrap);
+      cell.addEventListener('click', () => selectDay(y, m, d, cell));
+      cell.setAttribute('aria-label',
+        `${MONTH_NAMES[m]} ${d}: ` +
+        games.map(g => `${SPORT_LABEL[g.sport] || g.sport} vs ${g.opponent}`).join(', ')
+      );
     }
     grid.appendChild(cell);
   }
 }
 
-function selectDay(y,m,d,cell){
+function selectDay(y, m, d, cell) {
   document.querySelectorAll('.cal-cell.selected').forEach(c => c.classList.remove('selected'));
   cell.classList.add('selected');
-  const games = gamesOn(y,m,d);
-  renderUpcoming(games, true);
+  renderUpcoming(gamesOn(y, m, d), true);
 }
 
-function renderUpcoming(list, isSelection){
+function renderUpcoming(list, isSelection) {
   const ul = document.getElementById('upcomingList');
+  document.querySelector('.schedule-list h3').textContent =
+    isSelection ? 'Games On This Date' : 'Upcoming Games';
   ul.innerHTML = '';
-  const heading = document.querySelector('.schedule-list h3');
-  heading.textContent = isSelection ? 'Games On This Date' : 'Upcoming Games';
-  if(!list.length){
+  if (!list.length) {
     const li = document.createElement('li');
-    li.style.color = 'var(--gray)';
-    li.style.fontSize = '13.5px';
+    li.style.cssText = 'color:var(--gray);font-size:13.5px';
     li.textContent = 'No games scheduled.';
     ul.appendChild(li);
     return;
@@ -131,43 +189,57 @@ function renderUpcoming(list, isSelection){
   list.forEach(g => {
     const li = document.createElement('li');
     li.className = 'game-item';
-    const dateObj = new Date(g.date + 'T00:00:00');
-    const dateLabel = dateObj.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
-    li.innerHTML = `
-      <span class="game-tag" style="background:var(--${g.sport==='vf'?'blue-light':g.sport==='msf'?'gold':'orange'})"></span>
+    const dateObj   = new Date(g.date + 'T00:00:00');
+    const dateLabel = dateObj.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    const color     = g.sport === 'vf' ? 'blue-light' : g.sport === 'msf' ? 'gold' : 'orange';
+    li.innerHTML    = `
+      <span class="game-tag" style="background:var(--${color})"></span>
       <div class="game-info">
-        <strong>${SPORT_LABEL[g.sport]} ${g.home ? 'vs' : '@'} ${g.opponent}</strong>
+        <strong>${SPORT_LABEL[g.sport] || g.sport} ${g.home ? 'vs' : '@'} ${g.opponent}</strong>
         <p>${dateLabel} · ${g.time} · ${g.home ? 'Home' : 'Away'}</p>
       </div>`;
     ul.appendChild(li);
   });
 }
 
-function initSchedule(){
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const upcoming = GAMES.filter(g => new Date(g.date+'T00:00:00') >= today)
-                         .sort((a,b) => new Date(a.date) - new Date(b.date));
-  const startGame = upcoming.length ? upcoming[0] : GAMES[0];
-  const sd = new Date(startGame.date + 'T00:00:00');
-  renderCalendar(sd.getFullYear(), sd.getMonth());
-  renderUpcoming(upcoming.slice(0,6), false);
+function initSchedule() {
+  const today    = new Date(); today.setHours(0, 0, 0, 0);
+  const upcoming = [...GAMES]
+    .filter(g => new Date(g.date + 'T00:00:00') >= today)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+  const startGame = upcoming[0] || GAMES[0];
+  if (startGame) {
+    const sd = new Date(startGame.date + 'T00:00:00');
+    renderCalendar(sd.getFullYear(), sd.getMonth());
+  } else {
+    const now = new Date();
+    renderCalendar(now.getFullYear(), now.getMonth());
+  }
+  renderUpcoming(upcoming.slice(0, 6), false);
 }
 
 document.getElementById('calPrev').addEventListener('click', () => {
   let m = viewMonth - 1, y = viewYear;
-  if(m < 0){ m = 11; y--; }
-  renderCalendar(y,m);
+  if (m < 0) { m = 11; y--; }
+  renderCalendar(y, m);
 });
 document.getElementById('calNext').addEventListener('click', () => {
   let m = viewMonth + 1, y = viewYear;
-  if(m > 11){ m = 0; y++; }
-  renderCalendar(y,m);
+  if (m > 11) { m = 0; y++; }
+  renderCalendar(y, m);
 });
 
-initSchedule();
+// ---------- Bootstrap: fetch then render ----------
+async function bootstrap() {
+  document.getElementById('upcomingList').innerHTML =
+    '<li style="color:var(--gray);font-size:13.5px">Loading schedule…</li>';
+  GAMES = await fetchGames();
+  initCountdown(GAMES);
+  initSchedule();
+}
+bootstrap();
 
-// ---------- Forms (front-end only — no backend wired up) ----------
+// ---------- Registration form ----------
 document.getElementById('registerForm').addEventListener('submit', e => {
   e.preventDefault();
   document.getElementById('registerNote').hidden = false;
@@ -175,30 +247,75 @@ document.getElementById('registerForm').addEventListener('submit', e => {
 });
 
 // ---------- Impact stat count-up animation ----------
-function initImpactCounters(){
+function initImpactCounters() {
   const stats = document.querySelectorAll('.impact-stat');
-  if(!stats.length) return;
-  const animate = (el) => {
+  if (!stats.length) return;
+  const animate = el => {
     const target = parseInt(el.dataset.count, 10) || 0;
-    const numEl = el.querySelector('.count-up');
-    const duration = 1200;
-    const start = performance.now();
-    function step(now){
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      numEl.textContent = Math.round(eased * target);
-      if(progress < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  };
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        animate(entry.target);
-        observer.unobserve(entry.target);
-      }
+    const numEl  = el.querySelector('.count-up');
+    const t0     = performance.now();
+    requestAnimationFrame(function step(now) {
+      const p = Math.min((now - t0) / 1200, 1);
+      numEl.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
+      if (p < 1) requestAnimationFrame(step);
     });
-  }, {threshold:0.4});
-  stats.forEach(s => observer.observe(s));
+  };
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 });
+  stats.forEach(s => obs.observe(s));
 }
 initImpactCounters();
+
+// =============================================================
+//  HOW TO CONNECT YOUR GOOGLE SHEET
+//  ─────────────────────────────────────────────────────────────
+//
+//  1. CREATE THE SHEET
+//     Go to sheets.google.com and create a new spreadsheet.
+//     Row 1 must be a header row with exactly these labels:
+//
+//       A1: Date     B1: Sport    C1: Opponent    D1: Home/Away    E1: Time
+//
+//  2. FILL IN YOUR GAMES (one game per row), e.g.:
+//
+//     A           B     C                        D      E
+//     2026-08-21  vf    Mount Pisgah Christian   Home   7:30 PM
+//     2026-08-28  vf    King's Ridge Christian   Away   7:30 PM
+//     2026-09-03  msf   Mount Pisgah Christian   Home   5:30 PM
+//     2026-11-13  bb    Mount Pisgah Christian   Home   6:00 PM
+//
+//     Sport codes:  vf = Varsity Football
+//                   msf = Middle School Football
+//                   bb = Basketball
+//
+//     Home/Away:    Use "Home" or "Away" (or True/False)
+//
+//     Date format:  YYYY-MM-DD  (e.g. 2026-09-15)
+//
+//  3. PUBLISH THE SHEET AS CSV
+//     a. Click File → Share → Publish to web
+//     b. Under the first dropdown, select the sheet tab name
+//        (e.g. "Sheet1")
+//     c. Under the second dropdown, select
+//        "Comma-separated values (.csv)"
+//     d. Click Publish — confirm if prompted
+//     e. Copy the URL shown (it looks like:
+//        https://docs.google.com/spreadsheets/d/e/2PACX-1v…/pub?output=csv)
+//
+//  4. PASTE THE URL
+//     Replace the placeholder at the top of this file:
+//
+//       const SHEET_CSV_URL = 'https://docs.google.com/…/pub?output=csv';
+//
+//  5. DONE — save the file and reload your site.
+//     The calendar and countdown will now pull directly from
+//     your sheet. To add or change a game, just edit the sheet
+//     and refresh — no code changes needed.
+//
+//  NOTE: Google's published CSV updates every few minutes, not
+//  instantly. If you don't see changes right away, wait ~2 min
+//  and do a hard reload (Ctrl+Shift+R / Cmd+Shift+R).
+// =============================================================
