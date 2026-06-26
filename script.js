@@ -241,7 +241,7 @@ bootstrap();
 
 // ---------- Registration form ----------
 document.getElementById('registerForm').addEventListener('submit', e => {
-  e.preventDefault();
+//  e.preventDefault();
   document.getElementById('registerNote').hidden = false;
   e.target.reset();
 });
