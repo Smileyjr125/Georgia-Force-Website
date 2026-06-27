@@ -76,16 +76,32 @@ async function fetchGames() {
 }
 
 // ---------- Countdown timer ----------
-let countdownTarget = null;
+const NEXT_GAME = new Date('2026-08-21T19:30:00');
+function tickCountdown(){
+  const now = new Date();
+  let diff = NEXT_GAME - now;
+  if (diff < 0) diff = 0;
+  const days  = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff / (1000*60*60)) % 24);
+  const mins  = Math.floor((diff / (1000*60)) % 60);
+  const secs  = Math.floor((diff / 1000) % 60);
+  const pad = n => String(n).padStart(2,'0');
 
-function tickCountdown() {
-  const diff = countdownTarget ? Math.max(0, countdownTarget - Date.now()) : 0;
-  const pad  = n => String(n).padStart(2, '0');
-  document.getElementById('cd-days' ).textContent = pad(Math.floor(diff / 86400000));
-  document.getElementById('cd-hours').textContent = pad(Math.floor(diff / 3600000) % 24);
-  document.getElementById('cd-mins' ).textContent = pad(Math.floor(diff / 60000)  % 60);
-  document.getElementById('cd-secs' ).textContent = pad(Math.floor(diff / 1000)   % 60);
+  // original four boxes
+  document.getElementById('cd-days').textContent  = pad(days);
+  document.getElementById('cd-hours').textContent = pad(hours);
+  document.getElementById('cd-mins').textContent  = pad(mins);
+  document.getElementById('cd-secs').textContent  = pad(secs);
+
+  // compact mobile timer
+  const compact = document.getElementById('cd-compact');
+  if (compact) {
+    compact.textContent = (days > 0 ? days + 'd ' : '')
+      + pad(hours) + ':' + pad(mins) + ':' + pad(secs);
+  }
 }
+tickCountdown();
+setInterval(tickCountdown, 1000);
 
 function initCountdown(games) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -240,10 +256,24 @@ async function bootstrap() {
 bootstrap();
 
 // ---------- Registration form ----------
-document.getElementById('registerForm').addEventListener('submit', e => {
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  document.getElementById('registerNote').hidden = false;
-  e.target.reset();
+  const formData = new FormData(e.target);
+
+  try {
+    await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams(formData).toString()
+    });
+
+    e.target.reset();
+    document.getElementById('registerNote').hidden = false;
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // ---------- Impact stat count-up animation ----------

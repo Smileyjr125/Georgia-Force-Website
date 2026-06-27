@@ -16,6 +16,7 @@
 <div class="countdown-bar">
   <div class="countdown-inner">
     <span class="countdown-label">NEXT GAME</span>
+    <span class="countdown-label-mobile">NEXT GAME IN:</span>
     <span class="countdown-game">Varsity Football vs. Mount Pisgah Christian</span>
     <span class="countdown-meta">Fri, Aug 21 · 7:30 PM · Home</span>
     <div class="countdown-timer" id="countdownTimer" aria-live="polite">
@@ -24,6 +25,7 @@
       <div class="t-unit"><span id="cd-mins">00</span><small>Min</small></div>
       <div class="t-unit"><span id="cd-secs">00</span><small>Sec</small></div>
     </div>
+    <span class="countdown-compact" id="cd-compact" aria-live="polite">00:00:00</span>
   </div>
 </div>
 
@@ -145,25 +147,25 @@
       <div class="field-row">
         <div class="field">
           <label for="reg-student">Student Name</label>
-          <input id="reg-student" name="student" type="text" required>
+          <input id="reg-student" name="student" type="text" required />
         </div>
         <div class="field">
           <label for="reg-grade">Grade Level</label>
-          <input id="reg-grade" name="grade" type="text" placeholder="e.g. 7th Grade" required>
+          <input id="reg-grade" name="grade" type="text" placeholder="e.g. 7th Grade" required />
         </div>
       </div>
       <div class="field">
         <label for="reg-parent">Parent / Guardian Name</label>
-        <input id="reg-parent" name="parent" type="text" required>
+        <input id="reg-parent" name="parent" type="text" required />
       </div>
       <div class="field-row">
         <div class="field">
           <label for="reg-email">Email</label>
-          <input id="reg-email" name="email" type="email" required>
+          <input id="reg-email" name="email" type="email" required />
         </div>
         <div class="field">
           <label for="reg-phone">Phone</label>
-          <input id="reg-phone" name="phone" type="tel" required>
+          <input id="reg-phone" name="phone" type="tel" required />
         </div>
       </div>
       <div class="field">
@@ -176,7 +178,7 @@
           <option>Cheerleading</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary form-submit">Submit Registration Interest</button>
+      <input type="submit" class="btn btn-primary form-submit" value="Submit Registration Interest" />
       <p class="form-note" id="registerNote" hidden>Thanks! Your registration interest has been recorded. Our staff will follow up by email or phone shortly.</p>
     </form>
   </div>
@@ -188,7 +190,6 @@
     <div class="section-head light">
       <span class="eyebrow">2026–27 Season</span>
       <h2>Game Schedule</h2>
-      <p class="sample-note">Sample schedule shown for demonstration — update the GAMES list in the code with confirmed dates and opponents.</p>
     </div>
     <div class="schedule-grid">
       <div class="calendar" id="calendar">
@@ -221,7 +222,7 @@
     <div class="section-head">
       <span class="eyebrow">Since 2004</span>
       <h2>Georgia Force By The Numbers</h2>
-      <p style="color:#444b58;font-size:15.5px;max-width:560px;">Two decades of faith, football, and family in Sugar Hill, GA — built one season at a time.</p>
+      <p class="impact-note">Two decades of faith, football, and family in Sugar Hill, GA — built one season at a time.</p>
     </div>
     <div class="impact-grid">
       <div class="impact-stat" data-count="22">
@@ -241,19 +242,20 @@
         <div class="impact-label">Conference &amp; Region Titles</div>
       </div>
     </div>
-    <p class="impact-note">Sample stats shown for demonstration — swap in your program's real numbers.</p>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="footer-cta">
-    <div class="wrap footer-cta-inner">
-      <div>
-        <span class="footer-cta-eyebrow">Become Part of the Force</span>
-        <h3>Ready to suit up this season?</h3>
+    <div class="wrap">
+      <div class="wrap footer-cta-inner">
+        <div>
+          <span class="footer-cta-eyebrow">Become Part of the Force</span>
+          <h3>Ready to suit up this season?</h3>
+        </div>
+        <a href="#register" class="btn btn-white">Register Now</a>
       </div>
-      <a href="#register" class="btn btn-white">Register Now</a>
     </div>
   </div>
   <div class="footer-main">
